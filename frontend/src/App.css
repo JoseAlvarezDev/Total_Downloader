@@ -117,21 +117,23 @@ a {
 
 .support-button {
   border-radius: 12px;
-  border: 1px solid rgba(41, 171, 224, 0.62);
-  background: linear-gradient(120deg, rgba(41, 171, 224, 0.25), rgba(56, 189, 248, 0.12));
-  color: #ecfeff;
+  border: 1px solid rgba(22, 163, 74, 0.82);
+  background: linear-gradient(120deg, rgba(20, 83, 45, 0.6), rgba(6, 78, 59, 0.46));
+  color: #86efac;
+  text-shadow: 0 0 10px rgba(134, 239, 172, 0.58);
   font-size: 0.84rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   padding: 0.58rem 0.82rem;
   white-space: nowrap;
   transition: border-color 180ms ease, transform 150ms ease, background-color 180ms ease;
+  animation: support-green-blink 1.1s steps(2, end) infinite;
 }
 
 .support-button:hover,
 .support-button:focus-visible {
-  border-color: rgba(125, 211, 252, 0.95);
-  background: linear-gradient(120deg, rgba(41, 171, 224, 0.35), rgba(56, 189, 248, 0.2));
+  border-color: rgba(134, 239, 172, 0.98);
+  background: linear-gradient(120deg, rgba(22, 163, 74, 0.36), rgba(6, 95, 70, 0.26));
   transform: translateY(-1px);
 }
 
@@ -865,6 +867,26 @@ button:disabled {
 
   to {
     transform: translateY(-8px);
+  }
+}
+
+@keyframes support-green-blink {
+  0%,
+  49% {
+    color: #86efac;
+    text-shadow: 0 0 10px rgba(134, 239, 172, 0.58);
+  }
+
+  50%,
+  100% {
+    color: #22c55e;
+    text-shadow: 0 0 18px rgba(34, 197, 94, 0.88);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .support-button {
+    animation: none;
   }
 }
 

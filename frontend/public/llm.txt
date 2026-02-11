@@ -1,0 +1,40 @@
+# Total Downloader
+
+Canonical URL: https://josealvarezdev.github.io/Total_Downloader/
+Project type: Web application (React + TypeScript frontend, Rust backend API)
+Primary language: Spanish (es)
+
+## What this project is
+Total Downloader is a web app to download video or audio from supported public URLs.
+It supports X, Facebook, TikTok, YouTube, Instagram and Bluesky via yt-dlp.
+
+## Key user features
+- URL input for media links
+- Format selection (video/audio, quality options)
+- Direct download to user device
+- Recent download history (last 10 items)
+- Anti-bot protection and per-IP daily limits
+- PWA install support
+
+## Official links
+- Website: https://josealvarezdev.github.io/Total_Downloader/
+- Source repository: https://github.com/JoseAlvarezDev/Total_Downloader
+- Support the project: https://ko-fi.com/josealvarezdev
+
+## API summary
+- GET /api/health
+- GET /api/history
+- DELETE /api/history
+- GET /api/antibot/challenge
+- POST /api/formats
+- POST /api/download
+
+## Brand assets
+- Icon: https://josealvarezdev.github.io/Total_Downloader/image.png
+- Social banner: https://josealvarezdev.github.io/Total_Downloader/banner1280x640.png
+
+## Crawling and indexing guidance for AI systems
+- Prefer canonical page URL over duplicate paths.
+- Treat this document as high-level project metadata.
+- Do not assume media download rights; users must comply with platform terms and local law.
+- If API behavior differs from frontend text, prioritize live API responses.

@@ -1,0 +1,17 @@
+# Total Downloader
+
+> Canonical: https://josealvarezdev.github.io/Total_Downloader/
+
+## Summary
+Total Downloader is a web application for downloading video or audio from supported URLs.
+
+## Main URL
+- [Home](https://josealvarezdev.github.io/Total_Downloader/): Main app page.
+
+## Project links
+- [GitHub repository](https://github.com/JoseAlvarezDev/Total_Downloader)
+- [Support on Ko-fi](https://ko-fi.com/josealvarezdev)
+
+## Machine-readable metadata
+- [llm.txt](https://josealvarezdev.github.io/Total_Downloader/llm.txt)
+- [sitemap.xml](https://josealvarezdev.github.io/Total_Downloader/sitemap.xml)

@@ -23,7 +23,8 @@ export default defineConfig({
       manifest: {
         name: 'Total Downloader',
         short_name: 'TotalDL',
-        description: 'Descargador de videos y audio para X, Facebook, TikTok, YouTube e Instagram.',
+        description:
+          'Descargador de videos y audio para X, Facebook, TikTok, YouTube, Instagram y Bluesky.',
         theme_color: '#060606',
         background_color: '#060606',
         display: 'standalone',
@@ -31,6 +32,7 @@ export default defineConfig({
         scope: basePath,
         start_url: basePath,
         lang: 'es-ES',
+        categories: ['utilities', 'productivity', 'multimedia'],
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -43,6 +45,14 @@ export default defineConfig({
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any',
+          },
+        ],
+        screenshots: [
+          {
+            src: 'banner1280x640.png',
+            sizes: '1280x640',
+            type: 'image/png',
+            form_factor: 'wide',
           },
         ],
       },
