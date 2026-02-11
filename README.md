@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="./image.png" alt="Total Downloader Logo" width="170" />
-</p>
+
 
 <h1 align="center">Total Downloader</h1>
 
