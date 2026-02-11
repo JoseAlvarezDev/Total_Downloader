@@ -102,6 +102,22 @@ En backend, `ALLOWED_ORIGINS` debe incluir el dominio de Pages:
 ALLOWED_ORIGINS=https://josealvarez.github.io,http://127.0.0.1:5173
 ```
 
+## Backend en Render
+
+Este repo ya incluye blueprint de Render:
+
+- `/Users/josealvarez/Desktop/Total_Downloader/render.yaml`
+
+Pasos:
+
+1. En Render, crea servicio desde el repo `JoseAlvarezDev/Total_Downloader`.
+2. Render detectará `render.yaml` y creará `total-downloader-api`.
+3. En la configuración del servicio, define `TURNSTILE_SECRET_KEY`.
+4. Tras el primer deploy, copia la URL pública del servicio (ejemplo: `https://total-downloader-api.onrender.com`).
+5. En GitHub -> `Settings` -> `Secrets and variables` -> `Actions` -> `Variables`, actualiza:
+   - `VITE_API_URL=https://tu-url-render.onrender.com`
+6. Haz un push a `main` o relanza el workflow de Pages para que el frontend use la nueva API.
+
 ## Instalar como PWA
 
 - En Chrome/Edge: abre la web y usa el botón `Instalar app` de la barra de direcciones.

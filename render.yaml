@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: total-downloader-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    healthCheckPath: /api/health
+    envVars:
+      - key: TRUST_PROXY_HEADERS
+        value: "true"
+      - key: MAX_CONCURRENT_DOWNLOADS
+        value: "3"
+      - key: ALLOWED_ORIGINS
+        value: https://josealvarez.github.io
+      - key: TURNSTILE_SECRET_KEY
+        sync: false

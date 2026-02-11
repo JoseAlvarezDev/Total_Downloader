@@ -340,7 +340,7 @@ async fn run() -> Result<(), ApiError> {
         .with_state(state)
         .layer(cors);
 
-    let addr = std::env::var("APP_ADDR").unwrap_or_else(|_| "127.0.0.1:8787".to_string());
+    let addr = resolve_bind_addr();
     let listener = TcpListener::bind(&addr).await.map_err(|error| {
         ApiError::internal(format!("No se pudo iniciar el puerto {addr}: {error}"))
     })?;
@@ -746,6 +746,24 @@ fn read_usize_env(name: &str) -> Option<usize> {
     std::env::var(name)
         .ok()
         .and_then(|value| value.trim().parse::<usize>().ok())
+}
+
+fn resolve_bind_addr() -> String {
+    if let Some(configured) = std::env::var("APP_ADDR")
+        .ok()
+        .and_then(|value| non_empty(&value).map(ToString::to_string))
+    {
+        return configured;
+    }
+
+    if let Some(port) = std::env::var("PORT")
+        .ok()
+        .and_then(|value| value.trim().parse::<u16>().ok())
+    {
+        return format!("0.0.0.0:{port}");
+    }
+
+    "127.0.0.1:8787".to_string()
 }
 
 fn build_cors_layer() -> Result<CorsLayer, ApiError> {
