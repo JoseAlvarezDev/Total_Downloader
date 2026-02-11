@@ -2,6 +2,12 @@
 
 Webapp moderna para descargar videos o audio desde X, Facebook, TikTok, YouTube, Instagram y otras plataformas soportadas por `yt-dlp`.
 
+## Apoya el proyecto
+
+Si te gusta Total Downloader y quieres apoyar su desarrollo:
+
+- Ko-fi: [https://ko-fi.com/josealvarezdev](https://ko-fi.com/josealvarezdev)
+
 ## Stack
 
 - Frontend: React + TypeScript + Vite

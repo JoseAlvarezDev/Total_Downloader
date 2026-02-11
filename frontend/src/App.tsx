@@ -581,58 +581,69 @@ function App() {
           </div>
         </a>
 
-        <button
-          type="button"
-          className="menu-toggle"
-          aria-label={isMenuOpen ? 'Cerrar menu principal' : 'Abrir menu principal'}
-          aria-expanded={isMenuOpen}
-          onClick={() => setIsMenuOpen((status) => !status)}
-        >
-          {isMenuOpen ? 'Cerrar' : 'Menu'}
-        </button>
+        <div className="header-actions">
+          <a
+            className="support-button"
+            href="https://ko-fi.com/josealvarezdev"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Apoya nuestro proyecto
+          </a>
 
-        <nav className={`main-nav ${isMenuOpen ? 'is-open' : ''}`} aria-label="Menu principal">
-          <ul className="menu-root">
-            {MENU_GROUPS.map((group) => {
-              const isOpen = openSubmenuId === group.id
+          <button
+            type="button"
+            className="menu-toggle"
+            aria-label={isMenuOpen ? 'Cerrar menu principal' : 'Abrir menu principal'}
+            aria-expanded={isMenuOpen}
+            onClick={() => setIsMenuOpen((status) => !status)}
+          >
+            {isMenuOpen ? 'Cerrar' : 'Menu'}
+          </button>
 
-              return (
-                <li
-                  key={group.id}
-                  className={`menu-item ${isOpen ? 'open' : ''}`}
-                  onMouseEnter={() => setOpenSubmenuId(group.id)}
-                  onMouseLeave={() =>
-                    setOpenSubmenuId((currentId) =>
-                      currentId === group.id ? null : currentId,
-                    )
-                  }
-                >
-                  <button
-                    type="button"
-                    className="menu-link"
-                    aria-expanded={isOpen}
-                    onClick={() => toggleSubmenu(group.id)}
+          <nav className={`main-nav ${isMenuOpen ? 'is-open' : ''}`} aria-label="Menu principal">
+            <ul className="menu-root">
+              {MENU_GROUPS.map((group) => {
+                const isOpen = openSubmenuId === group.id
+
+                return (
+                  <li
+                    key={group.id}
+                    className={`menu-item ${isOpen ? 'open' : ''}`}
+                    onMouseEnter={() => setOpenSubmenuId(group.id)}
+                    onMouseLeave={() =>
+                      setOpenSubmenuId((currentId) =>
+                        currentId === group.id ? null : currentId,
+                      )
+                    }
                   >
-                    {group.label}
-                    <span className="menu-caret" aria-hidden="true">
-                      ▾
-                    </span>
-                  </button>
+                    <button
+                      type="button"
+                      className="menu-link"
+                      aria-expanded={isOpen}
+                      onClick={() => toggleSubmenu(group.id)}
+                    >
+                      {group.label}
+                      <span className="menu-caret" aria-hidden="true">
+                        ▾
+                      </span>
+                    </button>
 
-                  <ul className="submenu">
-                    {group.links.map((link) => (
-                      <li key={link.label}>
-                        <a href={link.href} onClick={closeMobileMenu}>
-                          {link.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              )
-            })}
-          </ul>
-        </nav>
+                    <ul className="submenu">
+                      {group.links.map((link) => (
+                        <li key={link.label}>
+                          <a href={link.href} onClick={closeMobileMenu}>
+                            {link.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                )
+              })}
+            </ul>
+          </nav>
+        </div>
       </header>
 
       <section className="hero" id="inicio">
