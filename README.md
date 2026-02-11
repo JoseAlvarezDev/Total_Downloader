@@ -122,6 +122,21 @@ Pasos para desplegar la API Rust en Railway:
    - `VITE_API_URL=https://tu-url-publica-de-railway`
 8. Haz un push a `main` o relanza el workflow de Pages para que el frontend use la nueva API.
 
+### Si aparece `Error creating build plan with Railpack`
+
+El repo ya incluye `railway.json` para forzar build con Docker:
+
+- `/Users/josealvarez/Desktop/Total_Downloader/railway.json`
+
+Si Railway ya creó el servicio con configuración anterior:
+
+1. Abre el servicio en Railway.
+2. Ve a `Settings`.
+3. Asegura:
+   - `Builder`: `Dockerfile`
+   - `Dockerfile Path`: `backend/Dockerfile`
+4. Lanza un nuevo deploy (`Redeploy`).
+
 ## Instalar como PWA
 
 - En Chrome/Edge: abre la web y usa el botón `Instalar app` de la barra de direcciones.
