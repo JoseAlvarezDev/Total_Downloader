@@ -6,7 +6,16 @@ import type {
   HistoryEntry,
 } from './types'
 
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://127.0.0.1:8787'
+function normalizeApiBase(value: string | undefined): string {
+  const trimmed = value?.trim()
+  if (!trimmed) {
+    return 'http://127.0.0.1:8787'
+  }
+
+  return trimmed.endsWith('/') ? trimmed.slice(0, -1) : trimmed
+}
+
+const API_BASE = normalizeApiBase(import.meta.env.VITE_API_URL)
 
 interface ApiError {
   error?: string
