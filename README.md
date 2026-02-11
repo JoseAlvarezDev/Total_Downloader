@@ -135,7 +135,7 @@ Si Railway ya creó el servicio con configuración anterior:
 2. Ve a `Settings`.
 3. Asegura:
    - `Builder`: `Dockerfile`
-   - `Dockerfile Path`: `Dockerfile` (recomendado) o `backend/Dockerfile`
+   - `Dockerfile Path`: `Dockerfile` (raíz)
 4. Lanza un nuevo deploy (`Redeploy`).
 
 ## Instalar como PWA
