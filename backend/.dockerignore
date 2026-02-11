@@ -1,0 +1,5 @@
+target
+data
+temp_downloads
+.env
+.DS_Store

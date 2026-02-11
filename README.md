@@ -102,21 +102,25 @@ En backend, `ALLOWED_ORIGINS` debe incluir el dominio de Pages:
 ALLOWED_ORIGINS=https://josealvarez.github.io,http://127.0.0.1:5173
 ```
 
-## Backend en Render
+## Backend en Railway
 
-Este repo ya incluye blueprint de Render:
+Pasos para desplegar la API Rust en Railway:
 
-- `/Users/josealvarez/Desktop/Total_Downloader/render.yaml`
-
-Pasos:
-
-1. En Render, crea servicio desde el repo `JoseAlvarezDev/Total_Downloader`.
-2. Render detectará `render.yaml` y creará `total-downloader-api`.
-3. En la configuración del servicio, define `TURNSTILE_SECRET_KEY`.
-4. Tras el primer deploy, copia la URL pública del servicio (ejemplo: `https://total-downloader-api.onrender.com`).
-5. En GitHub -> `Settings` -> `Secrets and variables` -> `Actions` -> `Variables`, actualiza:
-   - `VITE_API_URL=https://tu-url-render.onrender.com`
-6. Haz un push a `main` o relanza el workflow de Pages para que el frontend use la nueva API.
+1. En Railway, crea `New Project` -> `Deploy from GitHub repo`.
+2. Selecciona el repo `JoseAlvarezDev/Total_Downloader`.
+3. En el servicio creado, configura:
+   - `Root Directory`: `backend`
+   - (si te lo pide) usa `Dockerfile` como método de build
+4. Activa un dominio público (`Networking` -> `Generate Domain`).
+5. En `Variables` del servicio Railway, define:
+   - `TRUST_PROXY_HEADERS=true`
+   - `MAX_CONCURRENT_DOWNLOADS=3`
+   - `ALLOWED_ORIGINS=https://josealvarez.github.io`
+   - `TURNSTILE_SECRET_KEY=<tu_secret_key_de_cloudflare>`
+6. Espera a que el deploy termine y copia la URL pública (ejemplo: `https://total-downloader-api.up.railway.app`).
+7. En GitHub -> `Settings` -> `Secrets and variables` -> `Actions` -> `Variables`, actualiza:
+   - `VITE_API_URL=https://tu-url-publica-de-railway`
+8. Haz un push a `main` o relanza el workflow de Pages para que el frontend use la nueva API.
 
 ## Instalar como PWA
 
