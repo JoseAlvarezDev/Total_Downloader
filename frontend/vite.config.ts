@@ -2,8 +2,18 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
+function normalizeBasePath(value: string): string {
+  const prefixed = value.startsWith('/') ? value : `/${value}`
+  return prefixed.endsWith('/') ? prefixed : `${prefixed}/`
+}
+
+const repositoryName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'Total_Downloader'
+const defaultBasePath = process.env.GITHUB_ACTIONS === 'true' ? `/${repositoryName}/` : '/'
+const basePath = normalizeBasePath(process.env.VITE_BASE_PATH ?? defaultBasePath)
+
 // https://vite.dev/config/
 export default defineConfig({
+  base: basePath,
   plugins: [
     react(),
     VitePWA({
@@ -18,8 +28,8 @@ export default defineConfig({
         background_color: '#060606',
         display: 'standalone',
         orientation: 'portrait',
-        scope: '/',
-        start_url: '/',
+        scope: basePath,
+        start_url: basePath,
         lang: 'es-ES',
         icons: [
           {

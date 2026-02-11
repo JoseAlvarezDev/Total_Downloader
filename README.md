@@ -73,6 +73,29 @@ npm run dev
 
 Frontend por defecto: `http://127.0.0.1:5173`
 
+## Deploy automático a GitHub Pages
+
+Este repo incluye el workflow:
+
+- `/Users/josealvarez/Desktop/Total_Downloader/.github/workflows/deploy-pages.yml`
+
+Se ejecuta en cada push a `main` y publica `frontend/dist` en GitHub Pages.
+
+### Variables recomendadas en GitHub (Settings -> Secrets and variables -> Actions -> Variables)
+
+- `VITE_API_URL`: URL pública de tu backend (ejemplo: `https://api.tudominio.com`)
+- `VITE_TURNSTILE_SITE_KEY`: Site key pública de Cloudflare Turnstile
+
+Si `VITE_API_URL` no está configurada, el frontend intentará `http://127.0.0.1:8787`, que no funcionará en producción.
+
+### CORS para Pages
+
+En backend, `ALLOWED_ORIGINS` debe incluir el dominio de Pages:
+
+```bash
+ALLOWED_ORIGINS=https://josealvarez.github.io,http://127.0.0.1:5173
+```
+
 ## Instalar como PWA
 
 - En Chrome/Edge: abre la web y usa el botón `Instalar app` de la barra de direcciones.

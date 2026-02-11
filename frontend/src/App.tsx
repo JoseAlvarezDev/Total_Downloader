@@ -115,6 +115,7 @@ function App() {
   const turnstileSiteKey = (import.meta.env.VITE_TURNSTILE_SITE_KEY ?? '').trim()
   const useTurnstile = turnstileSiteKey.length > 0
   const turnstileWidgetIdRef = useRef<string | null>(null)
+  const logoSrc = `${import.meta.env.BASE_URL}image.png`
   const [showSplash, setShowSplash] = useState(true)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [openSubmenuId, setOpenSubmenuId] = useState<string | null>(null)
@@ -561,7 +562,7 @@ function App() {
     return (
       <div className="splash-screen" role="status" aria-live="polite">
         <div className="splash-content">
-          <img src="/image.png" alt="Total Downloader" className="splash-logo" />
+          <img src={logoSrc} alt="Total Downloader" className="splash-logo" />
           <p className="splash-title">Total Downloader</p>
           <p className="splash-subtitle">Preparando tu centro de descargas...</p>
         </div>
@@ -573,7 +574,7 @@ function App() {
     <div className="app-shell">
       <header className="site-header">
         <a href="#inicio" className="site-brand" onClick={closeMobileMenu}>
-          <img src="/image.png" alt="Total Downloader" className="site-brand-logo" />
+          <img src={logoSrc} alt="Total Downloader" className="site-brand-logo" />
           <div className="site-brand-copy">
             <p className="kicker">TOTAL DOWNLOADER</p>
             <strong>Centro de Descargas</strong>
@@ -856,7 +857,7 @@ function App() {
       <footer className="site-footer" id="footer">
         <div className="footer-grid">
           <div className="footer-brand">
-            <img src="/image.png" alt="Total Downloader" className="footer-logo" />
+            <img src={logoSrc} alt="Total Downloader" className="footer-logo" />
             <p>
               Descargador profesional para video y audio. Rapido, ordenado y compatible con
               moviles, tablets y pantallas grandes.
