@@ -127,6 +127,7 @@ Pasos para desplegar la API Rust en Railway:
 El repo ya incluye `railway.json` para forzar build con Docker:
 
 - `/Users/josealvarez/Desktop/Total_Downloader/railway.json`
+- `/Users/josealvarez/Desktop/Total_Downloader/Dockerfile` (raíz, fallback automático)
 
 Si Railway ya creó el servicio con configuración anterior:
 
@@ -134,7 +135,7 @@ Si Railway ya creó el servicio con configuración anterior:
 2. Ve a `Settings`.
 3. Asegura:
    - `Builder`: `Dockerfile`
-   - `Dockerfile Path`: `backend/Dockerfile`
+   - `Dockerfile Path`: `Dockerfile` (recomendado) o `backend/Dockerfile`
 4. Lanza un nuevo deploy (`Redeploy`).
 
 ## Instalar como PWA
