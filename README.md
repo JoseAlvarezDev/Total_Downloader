@@ -1,174 +1,149 @@
-# Total Downloader
+<p align="center">
+  <img src="./image.png" alt="Total Downloader Logo" width="170" />
+</p>
 
-Webapp moderna para descargar videos o audio desde X, Facebook, TikTok, YouTube, Instagram, Bluesky y otras plataformas soportadas por `yt-dlp`.
+<h1 align="center">Total Downloader</h1>
 
-## Apoya el proyecto
+<p align="center">
+  Webapp moderna para descargar video o audio con <code>yt-dlp</code>, interfaz profesional y soporte PWA.
+</p>
 
-Si te gusta Total Downloader y quieres apoyar su desarrollo:
+<p align="center">
+  <a href="https://josealvarezdev.github.io/Total_Downloader/">
+    <img src="https://img.shields.io/badge/Web-GitHub%20Pages-111827?style=for-the-badge&logo=githubpages&logoColor=white" alt="GitHub Pages" />
+  </a>
+  <a href="https://ko-fi.com/josealvarezdev">
+    <img src="https://img.shields.io/badge/Apoya-Ko--fi-16a34a?style=for-the-badge&logo=kofi&logoColor=white" alt="Ko-fi" />
+  </a>
+</p>
 
-- Ko-fi: [https://ko-fi.com/josealvarezdev](https://ko-fi.com/josealvarezdev)
+<p align="center">
+  <img src="./banner1280x640.png" alt="Total Downloader Banner" width="100%" />
+</p>
+
+## Plataformas soportadas
+<p align="center">
+  <img src="https://cdn.simpleicons.org/x/ffffff" alt="X" width="34" title="X" />
+  &nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/facebook/1877F2" alt="Facebook" width="34" title="Facebook" />
+  &nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/tiktok/ffffff" alt="TikTok" width="34" title="TikTok" />
+  &nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="YouTube" width="34" title="YouTube" />
+  &nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram" width="34" title="Instagram" />
+  &nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/bluesky/0285FF" alt="Bluesky" width="34" title="Bluesky" />
+</p>
+
+## Caracteristicas
+- Descarga en modo `Video` o `Audio`.
+- Opciones de calidad/resolucion ordenadas de mejor a peor.
+- Descarga directa al dispositivo desde el navegador.
+- Historial reciente con miniatura y titulo (ultimas 10 descargas).
+- Anti-bot: Turnstile o challenge PoW local de respaldo.
+- Limite por IP: maximo 10 descargas por ventana de 24 horas.
+- PWA instalable (desktop y movil).
 
 ## Stack
-
 - Frontend: React + TypeScript + Vite
 - Backend: Rust + Axum
-- Motor de descarga: `yt-dlp` (y `ffmpeg` para extracción de audio)
+- Motor de descarga: `yt-dlp` + `ffmpeg`
+- Deploy frontend: GitHub Pages
+- Deploy backend: Railway
 
-## Funcionalidades
+## Demo
+- URL publica: [https://josealvarezdev.github.io/Total_Downloader/](https://josealvarezdev.github.io/Total_Downloader/)
 
-- Input de URL para cargar formatos disponibles.
-- Descarga en modo `Video` o `Audio`.
-- Opciones de calidad/resolución ordenadas de mejor a peor.
-- Descarga directa al dispositivo del usuario (navegador).
-- Filtro anti-bot (challenge PoW + honeypot) antes de cada descarga.
-- Límite anti-bot: máximo 10 descargas por IP en una ventana de 24 horas.
-- Historial persistente de las últimas 10 descargas por IP.
-- UI profesional con fondo negro y diseño responsive.
-- PWA instalable (manifest + service worker) con botón `Descargar app (PWA)`.
+## Estructura del proyecto
+- `frontend/` app React + Vite
+- `backend/` API Rust
+- `.github/workflows/deploy-pages.yml` deploy automatico de frontend
+- `railway.json` configuracion de deploy backend en Railway
 
-## Estructura
-
-- `/Users/josealvarez/Desktop/Total_Downloader/frontend` app React.
-- `/Users/josealvarez/Desktop/Total_Downloader/backend` API Rust.
-
-## Requisitos
-
+## Requisitos locales
 - Node.js 20+
 - Rust (stable)
 - `yt-dlp`
 - `ffmpeg`
 
-### macOS (Homebrew)
+macOS (Homebrew):
 
 ```bash
 brew install yt-dlp ffmpeg
 ```
 
-## Ejecutar en desarrollo
-
-### 1) Backend (Rust)
-
+## Desarrollo local
+### 1) Backend
 ```bash
-cd /Users/josealvarez/Desktop/Total_Downloader/backend
+cd backend
 cargo run
 ```
 
-Servidor por defecto: `http://127.0.0.1:8787`
+Backend por defecto: `http://127.0.0.1:8787`
 
-Variables recomendadas para producción:
-
+### 2) Frontend
 ```bash
-ALLOWED_ORIGINS=https://tu-frontend.com
-TRUST_PROXY_HEADERS=false
-MAX_CONCURRENT_DOWNLOADS=3
-TURNSTILE_SECRET_KEY=tu_secret_key_turnstile
-```
-
-- `ALLOWED_ORIGINS`: lista separada por comas de orígenes permitidos para CORS.
-- `TRUST_PROXY_HEADERS`: solo usa `true` si tienes un proxy confiable delante (Cloudflare/Nginx bien configurado).
-- `MAX_CONCURRENT_DOWNLOADS`: límite de descargas simultáneas en el backend.
-- `TURNSTILE_SECRET_KEY`: activa validación anti-bot con Cloudflare Turnstile. Si no se define, el backend usa PoW local como fallback.
-
-### 2) Frontend (Vite)
-
-```bash
-cd /Users/josealvarez/Desktop/Total_Downloader/frontend
+cd frontend
 npm install
 npm run dev
 ```
 
 Frontend por defecto: `http://127.0.0.1:5173`
 
-## Deploy automático a GitHub Pages
-
-Este repo incluye el workflow:
-
-- `/Users/josealvarez/Desktop/Total_Downloader/.github/workflows/deploy-pages.yml`
-
-Se ejecuta en cada push a `main` y publica `frontend/dist` en GitHub Pages.
-
-### Variables recomendadas en GitHub (Settings -> Secrets and variables -> Actions -> Variables)
-
-- `VITE_API_URL`: URL pública de tu backend (ejemplo: `https://api.tudominio.com`)
-- `VITE_TURNSTILE_SITE_KEY`: Site key pública de Cloudflare Turnstile
-
-Si `VITE_API_URL` no está configurada, el frontend intentará `http://127.0.0.1:8787`, que no funcionará en producción.
-
-### CORS para Pages
-
-En backend, `ALLOWED_ORIGINS` debe incluir el dominio de Pages:
-
+## Variables de entorno
+### Backend (produccion)
 ```bash
-ALLOWED_ORIGINS=https://josealvarez.github.io,http://127.0.0.1:5173
+ALLOWED_ORIGINS=https://josealvarezdev.github.io
+TRUST_PROXY_HEADERS=true
+MAX_CONCURRENT_DOWNLOADS=3
+TURNSTILE_SECRET_KEY=tu_secret_key_turnstile
 ```
 
-## Backend en Railway
+- `ALLOWED_ORIGINS`: lista separada por comas de origenes permitidos para CORS.
+- `TRUST_PROXY_HEADERS`: activar solo si hay proxy confiable delante.
+- `MAX_CONCURRENT_DOWNLOADS`: descargas simultaneas maximas.
+- `TURNSTILE_SECRET_KEY`: validacion anti-bot con Cloudflare Turnstile.
 
-Pasos para desplegar la API Rust en Railway:
-
-1. En Railway, crea `New Project` -> `Deploy from GitHub repo`.
-2. Selecciona el repo `JoseAlvarezDev/Total_Downloader`.
-3. En el servicio creado, configura:
-   - `Builder`: `Dockerfile`
-   - `Dockerfile Path`: `Dockerfile` (raíz del repo)
-4. Activa un dominio público (`Networking` -> `Generate Domain`).
-5. En `Variables` del servicio Railway, define:
-   - `TRUST_PROXY_HEADERS=true`
-   - `MAX_CONCURRENT_DOWNLOADS=3`
-   - `ALLOWED_ORIGINS=https://josealvarez.github.io`
-   - `TURNSTILE_SECRET_KEY=<tu_secret_key_de_cloudflare>`
-6. Espera a que el deploy termine y copia la URL pública (ejemplo: `https://total-downloader-api.up.railway.app`).
-7. En GitHub -> `Settings` -> `Secrets and variables` -> `Actions` -> `Variables`, actualiza:
-   - `VITE_API_URL=https://tu-url-publica-de-railway`
-8. Haz un push a `main` o relanza el workflow de Pages para que el frontend use la nueva API.
-
-Nota: el `Dockerfile` instala `yt-dlp` desde el release oficial mas reciente para evitar fallos de extractores (por ejemplo, TikTok/Bluesky) en paquetes desactualizados.
-
-### Si aparece `Error creating build plan with Railpack`
-
-El repo ya incluye `railway.json` para forzar build con Docker:
-
-- `/Users/josealvarez/Desktop/Total_Downloader/railway.json`
-- `/Users/josealvarez/Desktop/Total_Downloader/Dockerfile` (raíz, fallback automático)
-
-Si Railway ya creó el servicio con configuración anterior:
-
-1. Abre el servicio en Railway.
-2. Ve a `Settings`.
-3. Asegura:
-   - `Builder`: `Dockerfile`
-   - `Dockerfile Path`: `Dockerfile` (raíz)
-4. Lanza un nuevo deploy (`Redeploy`).
-
-## Instalar como PWA
-
-- En Chrome/Edge: abre la web y usa el botón `Instalar app` de la barra de direcciones.
-- En Safari iOS: `Compartir` -> `Agregar a pantalla de inicio`.
-
-## Configuración del frontend
-
-Si necesitas cambiar la URL del backend, crea `frontend/.env`:
-
+### Frontend (`frontend/.env`)
 ```bash
-VITE_API_URL=http://127.0.0.1:8787
+VITE_API_URL=https://totaldownloader-production.up.railway.app
 VITE_TURNSTILE_SITE_KEY=tu_site_key_turnstile
 ```
 
-- `VITE_TURNSTILE_SITE_KEY`: habilita el widget Turnstile en frontend. Si no se define, el frontend usa PoW local.
+## Deploy frontend (GitHub Pages)
+El workflow publica `frontend/dist` en cada push a `main`.
 
-## Persistencia local
+Variables recomendadas en GitHub Actions (`Settings -> Secrets and variables -> Actions -> Variables`):
+- `VITE_API_URL`
+- `VITE_TURNSTILE_SITE_KEY`
 
-El backend guarda:
+## Deploy backend (Railway)
+1. Crear proyecto desde el repo `JoseAlvarezDev/Total_Downloader`.
+2. Usar builder `Dockerfile` con `Dockerfile` en raiz.
+3. Configurar variables del backend.
+4. Generar dominio publico y usarlo en `VITE_API_URL`.
 
-- Historial: `/Users/josealvarez/Desktop/Total_Downloader/backend/data/history.json`
-- Límites por IP: `/Users/josealvarez/Desktop/Total_Downloader/backend/data/rate_limits.json`
-- Archivos temporales de transferencia: `/Users/josealvarez/Desktop/Total_Downloader/backend/temp_downloads`
+Nota: el `Dockerfile` descarga `yt-dlp_linux` oficial para evitar problemas por versiones antiguas en paquetes del sistema.
 
-## Endpoints API
+## Persistencia local backend
+- Historial: `backend/data/history.json`
+- Limites por IP: `backend/data/rate_limits.json`
+- Transferencias temporales: `backend/temp_downloads`
 
+## API
 - `GET /api/health`
 - `GET /api/history`
 - `DELETE /api/history`
 - `GET /api/antibot/challenge`
 - `POST /api/formats`
 - `POST /api/download`
+
+## SEO y archivos de descubrimiento
+- `frontend/public/robots.txt`
+- `frontend/public/sitemap.xml`
+- `frontend/public/llm.txt`
+- `frontend/public/llms.txt`
+
+## Apoya el proyecto
+- Ko-fi: [https://ko-fi.com/josealvarezdev](https://ko-fi.com/josealvarezdev)
