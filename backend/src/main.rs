@@ -436,23 +436,41 @@ async fn fetch_formats(
     }
     if !is_supported_download_url(url) {
         return Err(ApiError::bad_request(
-            "URL no soportada. Usa una URL de X, Facebook, TikTok, YouTube o Instagram.",
+            "URL no soportada. Usa una URL de X, Facebook, TikTok, YouTube, Instagram o Bluesky.",
         ));
     }
 
-    let output = run_yt_dlp(vec![
+    let output = match run_yt_dlp(vec![
         "-J".to_string(),
         "--no-playlist".to_string(),
         "--no-warnings".to_string(),
         url.to_string(),
     ])
-    .await?;
+    .await
+    {
+        Ok(output) => output,
+        Err(error) => {
+            if should_use_automatic_formats_fallback(url, &error.message) {
+                warn!(
+                    "yt-dlp fallo cargando metadatos para URL {:?}. Se devolvera fallback automatico. Error: {}",
+                    url, error.message
+                );
+                return Ok(Json(build_automatic_formats_response(url)));
+            }
+            return Err(error);
+        }
+    };
 
-    let info: YtDlpVideoInfo = serde_json::from_slice(&output.stdout).map_err(|error| {
-        ApiError::internal(format!(
-            "No se pudo interpretar la respuesta de yt-dlp: {error}"
-        ))
-    })?;
+    let info: YtDlpVideoInfo = match serde_json::from_slice(&output.stdout) {
+        Ok(info) => info,
+        Err(error) => {
+            warn!(
+                "No se pudo interpretar JSON de yt-dlp para URL {:?}. Se devolvera fallback automatico. Error: {error}",
+                url
+            );
+            return Ok(Json(build_automatic_formats_response(url)));
+        }
+    };
 
     let mut video_options = build_video_options(&info.formats);
     let mut audio_options = build_audio_options(&info.formats);
@@ -510,7 +528,7 @@ async fn start_download(
     }
     if !is_supported_download_url(url) {
         return Err(ApiError::bad_request(
-            "URL no soportada. Usa una URL de X, Facebook, TikTok, YouTube o Instagram.",
+            "URL no soportada. Usa una URL de X, Facebook, TikTok, YouTube, Instagram o Bluesky.",
         ));
     }
 
@@ -1253,9 +1271,14 @@ fn run_error_message(stderr: &[u8]) -> String {
         .next_back()
         .unwrap_or("yt-dlp no pudo completar la operacion")
         .to_string();
+    let lower = message.to_ascii_lowercase();
 
-    if message.to_lowercase().contains("unsupported url") {
+    if lower.contains("unsupported url") {
         "URL no soportada o invalida para descarga.".to_string()
+    } else if lower.contains("json object must be str, bytes or bytearray, not nonetype")
+        || lower.contains("nonetype")
+    {
+        "No se pudieron obtener metadatos de la URL. Intenta con formato automatico o reintenta mas tarde.".to_string()
     } else {
         message
     }
@@ -1501,7 +1524,7 @@ fn is_supported_download_url(input: &str) -> bool {
         None => return false,
     };
 
-    const SUPPORTED_DOMAINS: [&str; 13] = [
+    const SUPPORTED_DOMAINS: [&str; 14] = [
         "youtube.com",
         "youtu.be",
         "x.com",
@@ -1509,6 +1532,7 @@ fn is_supported_download_url(input: &str) -> bool {
         "facebook.com",
         "fb.watch",
         "instagram.com",
+        "bsky.app",
         "tiktok.com",
         "vm.tiktok.com",
         "vt.tiktok.com",
@@ -1520,6 +1544,62 @@ fn is_supported_download_url(input: &str) -> bool {
     SUPPORTED_DOMAINS
         .iter()
         .any(|domain| host == *domain || host.ends_with(&format!(".{domain}")))
+}
+
+fn is_domain_match(input: &str, domain: &str) -> bool {
+    Url::parse(input)
+        .ok()
+        .and_then(|parsed| parsed.host_str().map(ToString::to_string))
+        .map(|host| {
+            let host = host.to_ascii_lowercase();
+            host == domain || host.ends_with(&format!(".{domain}"))
+        })
+        .unwrap_or(false)
+}
+
+fn should_use_automatic_formats_fallback(url: &str, message: &str) -> bool {
+    let lower = message.to_ascii_lowercase();
+    let looks_like_extractor_metadata_error = lower
+        .contains("json object must be str, bytes or bytearray, not nonetype")
+        || (lower.contains("failed to extract") && lower.contains("json"))
+        || lower.contains("unable to extract")
+        || lower.contains("nonetype")
+        || lower.contains("no se pudieron obtener metadatos");
+
+    if !looks_like_extractor_metadata_error {
+        return false;
+    }
+
+    is_domain_match(url, "tiktok.com")
+        || is_domain_match(url, "vm.tiktok.com")
+        || is_domain_match(url, "vt.tiktok.com")
+        || is_domain_match(url, "bsky.app")
+}
+
+fn build_automatic_formats_response(url: &str) -> FormatsResponse {
+    let source = Url::parse(url)
+        .ok()
+        .and_then(|parsed| parsed.host_str().map(ToString::to_string))
+        .unwrap_or_else(|| "fuente-desconocida".to_string());
+
+    FormatsResponse {
+        title: format!("Modo automatico ({source})"),
+        thumbnail: None,
+        video_options: vec![FormatOption {
+            format_id: "bestvideo+bestaudio/best".to_string(),
+            label: "Mejor calidad automatica".to_string(),
+            resolution: Some("Auto".to_string()),
+            ext: "mp4".to_string(),
+            has_audio: true,
+        }],
+        audio_options: vec![FormatOption {
+            format_id: "bestaudio".to_string(),
+            label: "Mejor audio disponible".to_string(),
+            resolution: None,
+            ext: "mp3".to_string(),
+            has_audio: true,
+        }],
+    }
 }
 
 fn is_pow_solution_valid(challenge_id: &str, nonce: &str, solution: u64) -> bool {

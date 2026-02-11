@@ -1,6 +1,6 @@
 # Total Downloader
 
-Webapp moderna para descargar videos o audio desde X, Facebook, TikTok, YouTube, Instagram y otras plataformas soportadas por `yt-dlp`.
+Webapp moderna para descargar videos o audio desde X, Facebook, TikTok, YouTube, Instagram, Bluesky y otras plataformas soportadas por `yt-dlp`.
 
 ## Apoya el proyecto
 
@@ -109,8 +109,8 @@ Pasos para desplegar la API Rust en Railway:
 1. En Railway, crea `New Project` -> `Deploy from GitHub repo`.
 2. Selecciona el repo `JoseAlvarezDev/Total_Downloader`.
 3. En el servicio creado, configura:
-   - `Root Directory`: `backend`
-   - (si te lo pide) usa `Dockerfile` como método de build
+   - `Builder`: `Dockerfile`
+   - `Dockerfile Path`: `Dockerfile` (raíz del repo)
 4. Activa un dominio público (`Networking` -> `Generate Domain`).
 5. En `Variables` del servicio Railway, define:
    - `TRUST_PROXY_HEADERS=true`
@@ -121,6 +121,8 @@ Pasos para desplegar la API Rust en Railway:
 7. En GitHub -> `Settings` -> `Secrets and variables` -> `Actions` -> `Variables`, actualiza:
    - `VITE_API_URL=https://tu-url-publica-de-railway`
 8. Haz un push a `main` o relanza el workflow de Pages para que el frontend use la nueva API.
+
+Nota: el `Dockerfile` instala `yt-dlp` desde el release oficial mas reciente para evitar fallos de extractores (por ejemplo, TikTok/Bluesky) en paquetes desactualizados.
 
 ### Si aparece `Error creating build plan with Railpack`
 

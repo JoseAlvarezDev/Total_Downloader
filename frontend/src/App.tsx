@@ -298,7 +298,6 @@ function App() {
     }
 
     const handleBeforeInstallPrompt = (event: Event) => {
-      event.preventDefault()
       setInstallPromptEvent(event as BeforeInstallPromptEvent)
     }
 
@@ -650,7 +649,7 @@ function App() {
         <div className="hero-intro">
           <h1>Descargas de video sin fricciones</h1>
           <p className="hero-copy">
-            X, Facebook, TikTok, YouTube, Instagram y mas. Elige formato, resolucion y
+            X, Facebook, TikTok, YouTube, Instagram, Bluesky y mas. Elige formato, resolucion y
             extrae audio en segundos.
           </p>
           <div className="hero-actions">
@@ -896,7 +895,7 @@ function App() {
               <li>YouTube</li>
               <li>TikTok</li>
               <li>Instagram</li>
-              <li>Facebook / X</li>
+              <li>Facebook / X / Bluesky</li>
             </ul>
           </div>
 
